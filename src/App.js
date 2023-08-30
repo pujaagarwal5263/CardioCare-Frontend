@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNylas } from '@nylas/nylas-react';
 import NylasLogin from './NylasLogin';
 import LoginDone from './LoginDone';
+import LandingPage from "./LandingPage";
 
 //import Layout from './components/Layout';
 //import EmailApp from './EmailApp';
@@ -123,7 +124,8 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginDone />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<LoginDone />} />
         <Route path="/login" element={<NylasLogin />} />
         {/* Add more routes as needed */}
       </Routes>
