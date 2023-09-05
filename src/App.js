@@ -4,6 +4,9 @@ import { useNylas } from '@nylas/nylas-react';
 import NylasLogin from './NylasLogin';
 import LoginDone from './LoginDone';
 import LandingPage from "./LandingPage";
+import HeartDiseaseForm from "./HeartDiseaseForm";
+import DoctorFinder from "./DoctorFinder";
+import { ChakraProvider } from "@chakra-ui/react";
 
 //import Layout from './components/Layout';
 //import EmailApp from './EmailApp';
@@ -96,40 +99,19 @@ function App() {
   };
 
   return (
-    // <Layout
-    //   showMenu={!!userId}
-    //   disconnectUser={disconnectUser}
-    //   refresh={refresh}
-    //   isLoading={isLoading}
-    //   title="Email sample app"
-    //   toastNotification={toastNotification}
-    //   setToastNotification={setToastNotification}
-    // >
-    //   {!userId ? (
-    //     <NylasLogin email={userEmail} setEmail={setUserEmail} />
-    //   ) : (
-    //     <div className="app-card">
-    //       {/* <EmailApp
-    //         userEmail={userEmail}
-    //         emails={emails}
-    //         isLoading={isLoading}
-    //         serverBaseUrl={SERVER_URI}
-    //         userId={userId}
-    //         reloadEmail={refresh}
-    //         setToastNotification={setToastNotification}
-    //       /> */}
-    //     </div>
-    //   )}
-    // </Layout>
     <>
+    <ChakraProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<LoginDone />} />
         <Route path="/login" element={<NylasLogin />} />
+        <Route path="/form" element={<HeartDiseaseForm/>} />
+        <Route path="/nearbydoctors" element={<DoctorFinder />} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>
+    </ChakraProvider>
       </>
   );
 }
