@@ -7,7 +7,7 @@ import LandingPage from "./LandingPage";
 import HeartDiseaseForm from "./HeartDiseaseForm";
 import DoctorFinder from "./DoctorFinder";
 import { ChakraProvider } from "@chakra-ui/react";
-
+import DoctorList from "./DummyDoctors";
 //import Layout from './components/Layout';
 //import EmailApp from './EmailApp';
 
@@ -108,6 +108,7 @@ function App() {
         <Route path="/login" element={<NylasLogin />} />
         <Route path="/form" element={<HeartDiseaseForm/>} />
         <Route path="/nearbydoctors" element={<DoctorFinder />} />
+        <Route path="/doctors" element={<DoctorList/>} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

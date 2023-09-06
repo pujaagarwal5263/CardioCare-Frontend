@@ -1,0 +1,17 @@
+[
+    {
+      "name": "Dr. John Doe",
+      "image": "https://example.com/doctor1.jpg",
+      "email": "john.doe@example.com",
+      "address": "123 Main St, City, Country",
+      "experience": 10
+    },
+    {
+      "name": "Dr. Jane Smith",
+      "image": "https://example.com/doctor2.jpg",
+      "email": "jane.smith@example.com",
+      "address": "456 Elm St, City, Country",
+      "experience": 8
+    }
+]
+  
