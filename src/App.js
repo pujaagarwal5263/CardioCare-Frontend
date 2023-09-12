@@ -4,7 +4,18 @@ import { useNylas } from '@nylas/nylas-react';
 import NylasLogin from './NylasLogin';
 import LoginDone from './LoginDone';
 import LandingPage from "./LandingPage";
+// import Doctors from "./DoctorFinder";
+import "./App.css";
 
+import Home from "./components/Home";
+import Header from "./components/Header";
+import Footer  from "./components/Footer";
+import Email from "./components/Email/Email"
+
+import HeartDiseaseForm from "./HeartDiseaseForm";
+import DoctorFinder from "./DoctorFinder";
+import { ChakraProvider } from "@chakra-ui/react";
+import PNFound from "./PNFound"
 //import Layout from './components/Layout';
 //import EmailApp from './EmailApp';
 
@@ -122,15 +133,27 @@ function App() {
     //   )}
     // </Layout>
     <>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<LoginDone />} />
-        <Route path="/login" element={<NylasLogin />} />
-        {/* Add more routes as needed */}
-      </Routes>
-    </BrowserRouter>
-      </>
+      <ChakraProvider>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<LandingPage/>} />
+          <Route path="/home" element={<Home/>} />
+          <Route path="/dashboard" element={<LoginDone />} />
+          <Route path="/login" element={<NylasLogin />} />
+          <Route path="/form" element={<HeartDiseaseForm/>} />
+          <Route path="/nearbydoctors" element={<DoctorFinder />} />
+          <Route path="/email" element={<Email/>}/>
+          {/* <Route path='/doctors' element={<Doctors />}/> */}
+          {/* <Route path='/doctors/:id' element={<DoctorDetails />}/> */}
+          {/* Add more routes as needed */}
+          <Route path="*" element={<PNFound/>}/>
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+      </ChakraProvider>
+
+    </>
   );
 }
 
