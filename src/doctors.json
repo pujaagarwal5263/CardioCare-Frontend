@@ -1,16 +1,23 @@
 [
     {
-      "name": "Dr. John Doe",
+      "name": "Dr. Puja Agarwal",
       "image": "https://example.com/doctor1.jpg",
-      "email": "john.doe@example.com",
-      "address": "123 Main St, City, Country",
+      "email": "pujaagarwal.collegedunia@gmail.com",
+      "education": "Medical College, PGI Lucknow",
       "experience": 10
     },
     {
-      "name": "Dr. Jane Smith",
+      "name": "Dr. Aaditya Agarwal",
       "image": "https://example.com/doctor2.jpg",
-      "email": "jane.smith@example.com",
-      "address": "456 Elm St, City, Country",
+      "email": "aadityanitu5263@gmail.com",
+      "education": "AIIMS Delhi",
+      "experience": 8
+    },
+    {
+      "name": "Dr. Riddhi",
+      "image": "https://example.com/doctor2.jpg",
+      "email": "pujuagarwal5263@gmail.com",
+      "education": "AIIMS Ranchi",
       "experience": 8
     }
 ]

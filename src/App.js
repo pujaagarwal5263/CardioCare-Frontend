@@ -6,8 +6,9 @@ import LoginDone from './LoginDone';
 import LandingPage from "./LandingPage";
 import HeartDiseaseForm from "./HeartDiseaseForm";
 import DoctorFinder from "./DoctorFinder";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, CheckboxGroup } from "@chakra-ui/react";
 import DoctorList from "./DummyDoctors";
+import Calendar from "./Calendar";
 //import Layout from './components/Layout';
 //import EmailApp from './EmailApp';
 
@@ -33,9 +34,10 @@ function App() {
         .exchangeCodeFromUrlForToken()
         .then((user) => {
           console.log("user",user);
-          const { id } = JSON.parse(user);
+          const { id, emailAddress } = JSON.parse(user);
           setUserId(id);
           sessionStorage.setItem('userId', id);
+          sessionStorage.setItem('userEmail',emailAddress);
         })
         .catch((error) => {
           console.error('An error occurred parsing the response:', error);
@@ -87,16 +89,6 @@ function App() {
     setIsLoading(false);
   };
 
-  const disconnectUser = () => {
-    sessionStorage.removeItem('userId');
-    sessionStorage.removeItem('userEmail');
-    setUserId('');
-    setUserEmail('');
-  };
-
-  const refresh = () => {
-    getEmails();
-  };
 
   return (
     <>
@@ -109,6 +101,7 @@ function App() {
         <Route path="/form" element={<HeartDiseaseForm/>} />
         <Route path="/nearbydoctors" element={<DoctorFinder />} />
         <Route path="/doctors" element={<DoctorList/>} />
+        <Route path="/calendar" element={<Calendar />}/>
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

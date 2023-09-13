@@ -1,0 +1,63 @@
+/* Calendar.css */
+.calendar-container {
+    display: flex;
+  }
+  
+  .sidebar {
+    flex: 1; /* Adjust the width as needed */
+    background-color: #f0f0f0; /* Set the sidebar background color */
+    padding: 20px; /* Add padding to the sidebar */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Adjust alignment as needed */
+  }
+  
+  .check-availability-button {
+    margin-bottom: 10px; 
+    background-color: teal;
+    padding: 5px;
+    color: white;
+  }
+  
+  .form-container {
+    flex: 2; /* Adjust the width as needed */
+    padding: 20px; /* Add padding to the form container */
+  }
+  
+  .calendar-form {
+    /* Add your form styles here */
+  }
+  
+  /* Example form field styling */
+  .calendar-form .form-group {
+    margin-bottom: 20px; /* Add spacing between form fields */
+  }
+  
+  /* Example label styling */
+  .calendar-form label {
+    font-weight: bold;
+  }
+  
+  /* Example input styling */
+  .calendar-form input[type="text"],
+  .calendar-form input[type="datetime-local"] {
+    width: 100%; /* Make inputs expand to container width */
+    padding: 10px; /* Add padding to inputs */
+    border: 1px solid #ccc; /* Add border for clarity */
+    border-radius: 4px; /* Add border radius for rounded corners */
+  }
+  
+  /* Example button styling */
+  .calendar-form button[type="submit"] {
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Text color */
+    padding: 10px 20px; /* Button padding */
+    border: none; /* Remove button border */
+    border-radius: 4px; /* Add border radius for rounded corners */
+    cursor: pointer; /* Show pointer cursor on hover */
+  }
+  
+  .calendar-form button[type="submit"]:hover {
+    background-color: #0056b3; /* Change background color on hover */
+  }
+  

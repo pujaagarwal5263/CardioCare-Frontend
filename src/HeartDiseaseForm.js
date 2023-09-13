@@ -68,7 +68,7 @@ const HeartDiseaseForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(formData);
     // Create a data object in the required format
     const dataToSend = {
       features: [

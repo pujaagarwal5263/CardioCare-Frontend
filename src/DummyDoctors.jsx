@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ChakraProvider,
   Box,
@@ -25,6 +26,7 @@ import doctorsData from './doctors.json';
 const DoctorList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const navigate = useNavigate(); 
 
   const handleScheduleAppointment = (doctor) => {
     setSelectedDoctor(doctor);
@@ -32,11 +34,14 @@ const DoctorList = () => {
   };
 
   const handleAppointmentSubmit = () => {
-    // You can implement the logic to submit the appointment here.
-    // This is just a placeholder function.
+    ScheduleAppointment(selectedDoctor);
     onClose();
   };
 
+  const ScheduleAppointment = (selectedDoctor) => {
+    const doctorEmailParam = encodeURIComponent(selectedDoctor.email);
+    navigate(`/calendar?doctorEmail=${doctorEmailParam}`);
+  };
   return (
     <ChakraProvider>
       <Box p={4}>
@@ -51,7 +56,7 @@ const DoctorList = () => {
                 <Box ml={4}>
                   <Text fontSize="xl" fontWeight="bold">{doctor.name}</Text>
                   <Text>Email: {doctor.email}</Text>
-                  <Text>Address: {doctor.address}</Text>
+                  <Text>Education: {doctor.education}</Text>
                   <Text>Years of Experience: {doctor.experience}</Text>
                 </Box>
                 <Spacer />
@@ -60,6 +65,7 @@ const DoctorList = () => {
                   colorScheme="teal"
                   variant="solid"
                   mr={2}
+                 // onClick={() => handleSendEmail(doctor)}
                 >
                   Send Email
                 </Button>
@@ -84,7 +90,7 @@ const DoctorList = () => {
           <ModalBody>
             {selectedDoctor && (
               <form>
-                {/* Add appointment date and time inputs here */}
+                <p>Schedule appointment with {selectedDoctor.name}?</p>
                 <div>
                   {/* Date and Time inputs */}
                 </div>
