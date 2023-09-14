@@ -1,6 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const HeartDiseaseForm = () => {
+  const [userEmail, setUserEmail] = useState("");
+  
+  useEffect(() => {
+    const userEmail = sessionStorage.getItem("userEmail");
+    if (userEmail) {
+      setUserEmail(userEmail);
+    }
+  }, []);
+
   const chestPainOptions = [
     { name: "Typical angina", value: "0" },
     { name: "Atypical angina", value: "1" },
@@ -45,6 +54,16 @@ const HeartDiseaseForm = () => {
     },
   ];
 
+  // Define mapping objects for select options
+  const optionsMapping = {
+    cp: chestPainOptions,
+    restecg: restecgOptions,
+    slope: slopeOptions,
+    ca: caOptions,
+    thal: thalOptions,
+  };
+
+  // Define your formData state with default values as empty strings
   const [formData, setFormData] = useState({
     age: "",
     sex: "", // Default value is an empty string
@@ -61,14 +80,44 @@ const HeartDiseaseForm = () => {
     thal: "",
   });
 
+  // Define a separate userData state for string values
+  const [userData, setUserData] = useState({
+    age: "",
+    sex: "",
+    cp: "",
+    trestbps: "",
+    chol: "",
+    fbs: "",
+    restecg: "",
+    thalach: "",
+    exang: "",
+    oldpeak: "",
+    slope: "",
+    ca: "",
+    thal: "",
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Fetch the selected option's string value
+    let selectedOptionValue = "";
+    if (optionsMapping[name]) {
+      const selectedOption = optionsMapping[name].find((option) => option.value === value);
+      if (selectedOption) {
+        selectedOptionValue = selectedOption.name;
+      }
+    }
+  
+    // Update both formData and userData
     setFormData({ ...formData, [name]: value });
+    setUserData({ ...userData, [name]: selectedOptionValue || value });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
     // Create a data object in the required format
     const dataToSend = {
       features: [
@@ -90,6 +139,24 @@ const HeartDiseaseForm = () => {
       ],
     };
 
+    const DBdata = {
+      email: userEmail,
+      userReport: {
+      age: userData.age,
+      sex: userData.sex == 1 ? "Male" : "Female",
+      chestPainType: userData.cp,
+      restingBloodPressure: userData.trestbps,
+      serumCholesterol: userData.chol,
+      fastingBloodSugar: userData.fbs,
+      restingElectrocardiographicResults: userData.restecg,
+      maxHeartRateAchieved: userData.thalach,
+      exerciseInducedPain: userData.exang == 1 ? "Yes" : "No",
+      stDepressionInducedByExercise: userData.oldpeak,
+      slopeOfPeakExerciseSTSegment: userData.slope,
+      numMajorVesselsColoredByFluoroscopy: userData.ca,
+      thaliumStressResult: userData.thal
+    }}
+
     try {
       // Make a POST request to your Flask API
       const response = await fetch("http://127.0.0.1:5000/predict", {
@@ -104,8 +171,19 @@ const HeartDiseaseForm = () => {
         throw new Error("Network response was not ok");
       }
 
+      const savetoDB = await fetch("http://localhost:8000/save_report",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(DBdata),
+      })
+      if (!savetoDB.ok) {
+        throw new Error("Network response was not ok");
+      }
+
       const responseData = await response.json();
-      const prediction= responseData.prediction[0];
+      const prediction = responseData.prediction[0];
 
       // Reset the form data to its initial state (empty values)
       setFormData({
@@ -124,14 +202,31 @@ const HeartDiseaseForm = () => {
         thal: "",
       });
 
-        // Display a message based on the prediction result
-    if (prediction === 0) {
-      // Prediction is 0, indicating no heart disease
-      alert("You are safe. No heart disease detected.");
-    } else if (prediction === 1) {
-      // Prediction is 1, indicating potential heart disease
-      alert("You might need further assistance. Potential heart disease detected.");
-    }
+      // Reset the userData state as well
+      setUserData({
+        age: "",
+        sex: "",
+        cp: "",
+        trestbps: "",
+        chol: "",
+        fbs: "",
+        restecg: "",
+        thalach: "",
+        exang: "",
+        oldpeak: "",
+        slope: "",
+        ca: "",
+        thal: "",
+      });
+
+      // Display a message based on the prediction result
+      if (prediction === 0) {
+        // Prediction is 0, indicating no heart disease
+        alert("You are safe. No heart disease detected.");
+      } else if (prediction === 1) {
+        // Prediction is 1, indicating potential heart disease
+        alert("You might need further assistance. Potential heart disease detected.");
+      }
 
       // Handle the API response as needed
       // You can update the state or perform any other actions here
