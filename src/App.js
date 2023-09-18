@@ -4,7 +4,7 @@ import { useNylas } from '@nylas/nylas-react';
 import NylasLogin from './NylasLogin';
 import LoginDone from './LoginDone';
 import LandingPage from "./LandingPage";
-import HeartDiseaseForm from "./HeartDiseaseForm";
+import HeartDiseaseForm from "../src/components/HeartDiseaseForm/HeartDiseaseForm"
 import DoctorFinder from "./DoctorFinder";
 import { ChakraProvider, CheckboxGroup } from "@chakra-ui/react";
 import DoctorList from "./DummyDoctors";

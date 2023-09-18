@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./Calendar.css"; // Import your CSS file for Calendar styling
+import axios from "axios";
 
 const Calendar = () => {
   const [userId, setUserId] = useState("");
@@ -26,14 +27,33 @@ const Calendar = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission here, e.g., send data to the server or perform some action
     console.log("Start Time:", startTime);
     console.log("End Time:", endTime);
     console.log("Doctor Email:", doctorEmail);
-    // You can send the form data to the server or perform any necessary action here
+  
+    try {
+      const response = await axios.post("http://localhost:8000/nylas/create-events", {
+        email: userEmail,
+        startTime: startTime,
+        endTime: endTime,
+        participants: `${doctorEmail}, ${userEmail}`, // Use an array if it's supposed to be an array
+      });
+  
+      if (response.status !== 200) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+  
+      // Parse the response as JSON (if it's JSON)
+      const data = response.data;
+      console.log(data);
+    } catch (err) {
+      console.error("Error:", err);
+    }
   };
+  
 
   const getUsersEvents = async () => {
     try {
