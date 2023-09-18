@@ -2,12 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./Calendar.css"; // Import your CSS file for Calendar styling
+import axios from "axios";
 
 const Calendar = () => {
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [description,setDescription] = useState("");
   const [events, setEvents] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,13 +28,33 @@ const Calendar = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // Handle form submission here, e.g., send data to the server or perform some action
     console.log("Start Time:", startTime);
     console.log("End Time:", endTime);
     console.log("Doctor Email:", doctorEmail);
+    console.log("object",sessionStorage.getItem("userEmail"));
     // You can send the form data to the server or perform any necessary action here
+    try {
+      const response = await axios.post("http://localhost:8000/nylas/create-events", {
+        email: sessionStorage.getItem("userEmail"),
+        startTime: startTime,
+        endTime: endTime,
+        participants: `${doctorEmail}, ${userEmail}`, // Use an array if it's supposed to be an array
+        description: description
+      });
+  
+      if (response.status !== 200) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+  
+      // Parse the response as JSON (if it's JSON)
+      const data = response.data;
+      console.log(data);
+    } catch (err) {
+      console.error("Error:", err);
+    }
   };
 
   const getUsersEvents = async () => {
@@ -68,6 +90,24 @@ const Calendar = () => {
     }
   };
 
+  const convertTimestamp = (timestamp) => {
+    const date = new Date(timestamp * 1000); // Convert to milliseconds
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  }
+
+  const getHrsAndMin = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`
+  }
+
   return (
     <div className="calendar-container">
       <div className="sidebar">
@@ -75,7 +115,7 @@ const Calendar = () => {
           <ul>
             {events.map((event, index) => (
               <li key={index}>
-                {event.title} on {event?.when.date}
+                {event.title} on {convertTimestamp(event?.when.start_time)} to {getHrsAndMin(event?.when.end_time)}
               </li>
             ))}
           </ul>
@@ -116,6 +156,16 @@ const Calendar = () => {
               id="participants"
               value={`${doctorEmail},${userEmail}`}
               readOnly
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Meeting Link:</label>
+            <input
+              type="text"
+              id="description"
+              value={description}
+              onChange={(e)=> setDescription(e.target.value)}
+              required
             />
           </div>
           <button type="submit">Submit</button>
