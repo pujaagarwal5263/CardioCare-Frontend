@@ -28,6 +28,16 @@ const Calendar = () => {
     }
   }, []);
 
+  const getUnixTimestamp = (date) => {
+    return Math.floor(date.getTime() / 1000);
+  };
+  
+  const applyTimezone = (date) => {
+    const localizedDate = new Date(date);
+  
+    return getUnixTimestamp(localizedDate);
+  };
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     // Handle form submission here, e.g., send data to the server or perform some action
@@ -39,8 +49,8 @@ const Calendar = () => {
     try {
       const response = await axios.post("http://localhost:8000/nylas/create-events", {
         email: sessionStorage.getItem("userEmail"),
-        startTime: startTime,
-        endTime: endTime,
+        startTime: applyTimezone(startTime),
+        endTime: applyTimezone(endTime),
         participants: `${doctorEmail}, ${userEmail}`, // Use an array if it's supposed to be an array
         description: description
       });
