@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { Button } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const HeartDiseaseForm = () => {
   const [userEmail, setUserEmail] = useState("");
+  const navigate = useNavigate();
   
   useEffect(() => {
     const userEmail = sessionStorage.getItem("userEmail");
@@ -236,6 +239,10 @@ const HeartDiseaseForm = () => {
     }
   };
 
+  const handleNext = () =>{
+    navigate('/doctors');
+  }
+
   const cholMessage =
     "Serum cholesterol (chol) is typically measured in mg/dL. Values above 200 mg/dL are typically a cause for concern.";
   const fbsMessage =
@@ -380,7 +387,8 @@ const HeartDiseaseForm = () => {
           ))}
         </select>
       </div>
-      <button type="submit">Predict</button>
+      <Button type="submit">Predict</Button>
+      <Button onClick={handleNext}>Connect to doctor</Button>
     </form>
   );
 };

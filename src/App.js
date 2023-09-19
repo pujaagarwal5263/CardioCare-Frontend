@@ -9,6 +9,7 @@ import DoctorFinder from "./DoctorFinder";
 import { ChakraProvider, CheckboxGroup } from "@chakra-ui/react";
 import DoctorList from "./DummyDoctors";
 import Calendar from "./Calendar";
+import Email from "./Email";
 //import Layout from './components/Layout';
 //import EmailApp from './EmailApp';
 
@@ -102,6 +103,7 @@ function App() {
         <Route path="/nearbydoctors" element={<DoctorFinder />} />
         <Route path="/doctors" element={<DoctorList/>} />
         <Route path="/calendar" element={<Calendar />}/>
+        <Route path="/email" element={<Email/>} />
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

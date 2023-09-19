@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from '@chakra-ui/react';
 
 const LandingPage = () => {
     const [authURL, setAuthURL] = useState('');
@@ -19,7 +20,7 @@ const LandingPage = () => {
   return (
     <div>
        <p> LandingPage</p>
-    <button onClick={Login}>Login here</button>   
+    <Button onClick={Login}>Login here</Button>   
     </div>
   )
 }

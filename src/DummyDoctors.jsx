@@ -38,6 +38,10 @@ const DoctorList = () => {
     onClose();
   };
 
+  const handleSendEmail = (doctor) =>{
+    navigate("/email", { state: { doctor } });
+  }
+
   const ScheduleAppointment = (selectedDoctor) => {
     const doctorEmailParam = encodeURIComponent(selectedDoctor.email);
     navigate(`/calendar?doctorEmail=${doctorEmailParam}`);
@@ -65,7 +69,7 @@ const DoctorList = () => {
                   colorScheme="teal"
                   variant="solid"
                   mr={2}
-                 // onClick={() => handleSendEmail(doctor)}
+                 onClick={() => handleSendEmail(doctor)}
                 >
                   Send Email
                 </Button>
