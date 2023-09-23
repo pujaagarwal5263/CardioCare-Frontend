@@ -10,8 +10,6 @@ import { ChakraProvider, CheckboxGroup } from "@chakra-ui/react";
 import DoctorList from "./DummyDoctors";
 import Calendar from "./Calendar";
 import Email from "./Email";
-//import Layout from './components/Layout';
-//import EmailApp from './EmailApp';
 
 function App() {
   const nylas = useNylas();
