@@ -6,6 +6,7 @@ import axios from "axios";
 
 const HeartDiseaseForm = () => {
   const [userEmail, setUserEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [getReportFlag, setReportFlag] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [comments, setComments] = useState("No heart disease vulnerability detected")
@@ -14,8 +15,11 @@ const HeartDiseaseForm = () => {
   
   useEffect(() => {
     const userEmail = sessionStorage.getItem("userEmail");
+    const usernameSt = localStorage.getItem("username")
     if (userEmail) {
       setUserEmail(userEmail);
+    }if(usernameSt){
+      setUserName(usernameSt)
     }
   }, []);
 
@@ -304,6 +308,7 @@ const HeartDiseaseForm = () => {
 
       const reportData = {
         data: {
+        name: username,
         date: formattedDate,
         age: userData.age,
         sex: userData.sex === 1 ? "Male" : "Female",
