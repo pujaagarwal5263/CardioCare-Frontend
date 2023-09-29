@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Button, Box, FormControl, FormLabel, Input, Select, Small, Stack, Text } from "@chakra-ui/react";
+import { Button, Box, FormControl, FormLabel, Input, Select, Spinner, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
+import axios from "axios";
 
 const HeartDiseaseForm = () => {
   const [userEmail, setUserEmail] = useState("");
+  const [getReportFlag, setReportFlag] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [comments, setComments] = useState("No heart disease vulnerability detected")
   const navigate = useNavigate();
+  const toast = useToast(); 
   
   useEffect(() => {
     const userEmail = sessionStorage.getItem("userEmail");
@@ -149,6 +155,7 @@ const HeartDiseaseForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     console.log("User Data -> ", userData)
     console.log("Form Data -> ", formData)
@@ -217,6 +224,7 @@ const HeartDiseaseForm = () => {
       if (!savetoDB.ok) {
         throw new Error("Network response was not ok");
       }
+      setReportFlag(false);
 
       const responseData = await response.json();
       const prediction = responseData.prediction[0];
@@ -239,38 +247,113 @@ const HeartDiseaseForm = () => {
       });
 
       // Reset the userData state as well
-      setUserData({
-        age: "",
-        sex: "",
-        cp: "",
-        trestbps: "",
-        chol: "",
-        fbs: "",
-        restecg: "",
-        thalach: "",
-        exang: "",
-        oldpeak: "",
-        slope: "",
-        ca: "",
-        thal: "",
-      });
+      // setUserData({
+      //   age: "",
+      //   sex: "",
+      //   cp: "",
+      //   trestbps: "",
+      //   chol: "",
+      //   fbs: "",
+      //   restecg: "",
+      //   thalach: "",
+      //   exang: "",
+      //   oldpeak: "",
+      //   slope: "",
+      //   ca: "",
+      //   thal: "",
+      // });
 
       // Display a message based on the prediction result
-      if (prediction === 0) {
-        // Prediction is 0, indicating no heart disease
-        alert("You are safe. No heart disease detected.");
-      } else if (prediction === 1) {
-        // Prediction is 1, indicating potential heart disease
-        alert("You might need further assistance. Potential heart disease detected.");
+      if (prediction == 0) {
+        toast({
+          title: "No Heart Disease Detected",
+          status: "success",
+          duration: 3000, 
+          isClosable: true, 
+        });
+      } else if (prediction == 1) {
+        setComments("Potential heart disease detected.");
+        toast({
+          title: "Potential Heart Disease Detected",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
       }
-
-      // Handle the API response as needed
-      // You can update the state or perform any other actions here
+      setIsLoading(false);
     } catch (error) {
       console.error("Error:", error);
-      // Handle errors here, e.g., display an error message to the user
     }
   };
+
+  const generateFormattedDate = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const hour = (currentDate.getHours() > 12 ? currentDate.getHours() - 12 : currentDate.getHours()).toString().padStart(2, '0');
+    const minute = currentDate.getMinutes().toString().padStart(2, '0');
+    const period = currentDate.getHours() >= 12 ? 'PM' : 'AM';
+    return `${year}-${month}-${day} ${hour}:${minute}${period}`;
+  };
+
+  const downloadReport = async () =>{
+    console.log("object");
+    try{
+      const formattedDate = generateFormattedDate();
+
+      const reportData = {
+        data: {
+        date: formattedDate,
+        age: userData.age,
+        sex: userData.sex === 1 ? "Male" : "Female",
+        comments: comments,
+        chestPainType: userData.cp,
+        restingBloodPressure: userData.trestbps,
+        serumCholesterol: userData.chol,
+        fastingBloodSugar: userData.fbs,
+        restingElectrocardiographicResults: userData.restecg,
+        maxHeartRateAchieved: userData.thalach,
+        exerciseInducedPain: userData.exang === 1 ? "Yes" : "No",
+        stDepressionInducedByExercise: userData.oldpeak,
+        slopeOfPeakExerciseSTSegment: userData.slope,
+        numMajorVesselsColoredByFluoroscopy: userData.ca,
+        thaliumStressResult: userData.thal
+      }}
+      console.log(reportData);
+
+      const response = await axios.post("http://localhost:8080/generate-pdf", reportData, {
+        responseType: 'arraybuffer', // Ensure binary response
+        headers: {
+          'Content-Type': 'application/json', // Match server's expected content type
+        },
+      });
+  
+      if (response.status === 200) {
+        // Create a blob from the response data
+        const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+  
+        // Create a URL for the blob
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+  
+        // Create an anchor element for downloading
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pdfUrl;
+        downloadLink.download = 'report.pdf';
+  
+        // Trigger a click event on the anchor to prompt the download
+        downloadLink.click();
+  
+        // Clean up by revoking the blob URL
+        URL.revokeObjectURL(pdfUrl);
+      } else {
+        console.error('Server returned a non-200 status code:', response.status);
+      }
+    
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   const handleNext = () =>{
     navigate('/doctors');
@@ -508,6 +591,7 @@ const HeartDiseaseForm = () => {
           (<Button
             type="submit"
             colorScheme="teal"
+            isLoading={isLoading}
             >
             {isLastStep ? "Predict" : ""}
           </Button>)
@@ -517,14 +601,26 @@ const HeartDiseaseForm = () => {
             <Button
               type="button"
               colorScheme="blue"
+              isDisabled={getReportFlag}
               onClick={() => navigate("/doctors")}
             >
               Connect to doctor
             </Button>
+
           )}
+
+            {isLastStep && (
+              <Button
+              type="button"
+              colorScheme="blue"
+              isDisabled={getReportFlag}
+              onClick={() => downloadReport()}
+              >
+                Download Report
+              </Button>
+            )}
           
-          {/* <Button type="submit" colorScheme="teal">Predict</Button>
-          <Button onClick={handleNext} colorScheme="blue">Connect to doctor</Button> */}
+
         </Stack>
       </form>
     </Box>

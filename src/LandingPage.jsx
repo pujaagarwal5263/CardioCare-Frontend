@@ -55,11 +55,13 @@ const LandingPage = () => {
             >
               <Box flex={{ base: '1', md: '1' }} textAlign={{ base: 'center', md: 'left' }} p={{ base: '4', md: '10' }} style={{border:"0px solid blue"}}>
                   <Text as="h1" fontSize={{ base: '3xl', md: '5xl', lg: '7xl' }} fontWeight="bold" marginBottom={{ base: '4', md: '8' }}>
-                      Heart Disease
+                      Cardio Care
+                  </Text>
+                  <Text as="h2" fontSize={{ base: '2xl', md: '2xl', lg: '2xl' }} fontWeight="bold" marginBottom={{ base: '4', md: '8' }}>
+                      Your Heart, Our Priority 🌼
                   </Text>
                   <Text as="h5" fontSize={{ base: 'sm', md: 'md', lg: 'lg' }} marginBottom={{ base: '4', md: '8' }}>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt assumenda reiciendis voluptas rem unde fugiat repudiandae praesentium iusto beatae possimus.
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor architecto vel amet laboriosam quisquam exercitationem consequuntur minima deserunt laudantium. Eos.
+                  Caring for your heart has never been easier. Welcome to Cardio Care, your trusted digital companion for heart health. Our platform empowers you to access vital health information, predict potential heart diseases, connect seamlessly with healthcare experts, and generate insightful health reports – all at your fingertips. With Cardio Care, your heart's well-being is our top priority. Join us on this journey to healthier living, and let's make every heartbeat count.
                   </Text>
                   {/* <Link to="/home"> */}
                       <Button colorScheme="purple" size="lg" onClick={Login}>Get Started</Button>

@@ -39,6 +39,8 @@ function App() {
           setUserId(id);
           sessionStorage.setItem('userId', id);
           sessionStorage.setItem('userEmail',emailAddress);
+          localStorage.setItem('userId', id);
+          localStorage.setItem('userEmail',emailAddress);
         })
         .catch((error) => {
           console.error('An error occurred parsing the response:', error);

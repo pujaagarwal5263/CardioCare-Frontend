@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./Calendar.css"; // Import your CSS file for Calendar styling
 import axios from "axios";
+import { useToast } from '@chakra-ui/react';
+import { Button } from "@chakra-ui/react";
 
 const Calendar = () => {
   const [userId, setUserId] = useState("");
@@ -12,6 +14,7 @@ const Calendar = () => {
   const [description,setDescription] = useState("");
   const [events, setEvents] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -39,6 +42,7 @@ const Calendar = () => {
   };
 
   const handleSubmit = async(e) => {
+    setIsLoading(true)
     e.preventDefault();
     // Handle form submission here, e.g., send data to the server or perform some action
     console.log("Start Time:", startTime);
@@ -62,8 +66,24 @@ const Calendar = () => {
       // Parse the response as JSON (if it's JSON)
       const data = response.data;
       console.log(data);
+      toast({
+        title: "Success",
+        description: "Appointment Scheduled Successfully",
+        status: "success", // "info", "warning", "error", or "success"
+        duration: 3000, // Duration in milliseconds
+        isClosable: true, // Allow user to close the toast
+      });
     } catch (err) {
+      toast({
+        title: "Error",
+        description: "Could not schedule appointment",
+        status: "error", // "info", "warning", "error", or "success"
+        duration: 3000, // Duration in milliseconds
+        isClosable: true, // Allow user to close the toast
+      });
       console.error("Error:", err);
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -180,7 +200,7 @@ const Calendar = () => {
                 required
               />
             </div>
-            <button type="submit">Submit</button>
+            <Button type="submit" isLoading={isLoading}>Submit</Button>
           </form>
         </div>
       </div>

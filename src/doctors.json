@@ -21,6 +21,13 @@
       "experience": 8
     },
     {
+      "name": "Dr Kiran",
+      "image": "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg",
+      "email":"gkirankumar503@gmail.com",
+      "education": "PGI Chandigarh",
+      "experience": 4
+    },
+    {
       "name": "Dr. Riddhi",
       "image": "https://static.vecteezy.com/system/resources/previews/002/896/807/non_2x/female-doctor-using-her-digital-tablet-free-vector.jpg",
       "email": "pujuagarwal5263@gmail.com",
@@ -28,7 +35,7 @@
       "experience": 8
     },
  {
-      "name": "Dr Project",
+      "name": "Dr Sandeep",
       "image": "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg",
       "email": "projectmentalhealth1@gmail.com",
       "education": "AIIMS Ranchi",

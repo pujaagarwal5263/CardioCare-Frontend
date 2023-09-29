@@ -5,6 +5,8 @@ import { useToast } from '@chakra-ui/react';
 
 const Email = () => {
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFectch, setIsFetch] = useState(false)
   const { doctor } = location.state || {};
 
   const [sendTo, setSendTo] = useState(doctor ? doctor.email : '');
@@ -15,6 +17,7 @@ const Email = () => {
   const toast = useToast({});
 
   const fetchReport = () => {
+    setIsFetch(true)
     const userEmail = sessionStorage.getItem("userEmail");
   
     fetch('http://localhost:8000/get_report', {
@@ -48,58 +51,129 @@ const Email = () => {
       })
       .catch(error => {
         console.error('Error fetching report:', error);
-      });
+      })
+      .finally(() =>{
+        setIsFetch(false)
+      })
+      
   };
 
-  const SendMail = () =>{
-    const userEmail = sessionStorage.getItem("userEmail");
+  // const SendMail = () =>{
+  //   setIsLoading(true);
+  //   const userEmail = sessionStorage.getItem("userEmail");
 
-    fetch("http://localhost:8000/send_email", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(
-        { 
-          subject: subject,
-          recipient_array: [
-            {
-              name: doctor.name,
-              email: doctor.email
-            }
-          ],
-          body: message,
-          sender_email: userEmail
-        }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log(data);
-        //setMessage(message + data)
-        toast({
-          title: "Notification Title",
-          description: data.message,
-          status: `${data.status?"success":"error"}`, // "info", "warning", "error", or "success"
-          duration: 3000, // Duration in milliseconds
-          isClosable: true, // Allow user to close the toast
-        });
-      })
-      .catch(error => {
-        console.error('Error Sending Mail:', error);
-        toast({
-          title: "Notification Title",
-          description: "Error Sending Mail",
-          status: "error", // "info", "warning", "error", or "success"
-          duration: 3000, // Duration in milliseconds
-          isClosable: true, // Allow user to close the toast
-        });
+  //   fetch("http://localhost:8000/send_email", {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(
+  //       { 
+  //         subject: subject,
+  //         recipient_array: [
+  //           {
+  //             name: doctor.name,
+  //             email: doctor.email
+  //           }
+  //         ],
+  //         body: message,
+  //         sender_email: userEmail
+  //       }),
+  //   })
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       console.log(data);
+  //       //setMessage(message + data)
+  //       toast({
+  //         title: "Email sent",
+  //         description: data.message,
+  //         status: `${data.status?"success":"error"}`, // "info", "warning", "error", or "success"
+  //         duration: 3000, // Duration in milliseconds
+  //         isClosable: true, // Allow user to close the toast
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.error('Error Sending Mail:', error);
+  //       toast({
+  //         title: "Notification Title",
+  //         description: "Error Sending Mail",
+  //         status: "error", // "info", "warning", "error", or "success"
+  //         duration: 3000, // Duration in milliseconds
+  //         isClosable: true, // Allow user to close the toast
+  //       });
+  //     });
+  //     setIsLoading(false)
+  // }
+
+  const SendMail = async () => {
+    setIsLoading(true);
+    const userEmail = sessionStorage.getItem("userEmail");
+  
+    try {
+      console.log( { 
+        subject: subject,
+        recipient_array: [
+          {
+            name: doctor.name,
+            email: doctor.email
+          }
+        ],
+        body: message,
+        sender_email: userEmail
       });
+      const response = await fetch("http://localhost:8000/send_email", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          { 
+            subject: subject,
+            recipient_array: [
+              {
+                name: doctor.name,
+                email: doctor.email
+              }
+            ],
+            body: message,
+            sender_email: userEmail
+          }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log(data);
+  
+      toast({
+        title: "Email sent",
+        description: data.message,
+        status: "success", // "info", "warning", "error", or "success"
+        duration: 3000, // Duration in milliseconds
+        isClosable: true, // Allow user to close the toast
+      });
+    } catch (error) {
+      console.error('Error Sending Mail:', error);
+  
+      toast({
+        title: "Notification Title",
+        description: "Error Sending Mail",
+        status: "error", // "info", "warning", "error", or "success"
+        duration: 3000, // Duration in milliseconds
+        isClosable: true, // Allow user to close the toast
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -150,10 +224,10 @@ const Email = () => {
               rows={8}
             />
           </FormControl>
-          <Button type="submit" colorScheme="red" onClick={SendMail}>
+          <Button type="submit" colorScheme="red" onClick={SendMail} isLoading={isLoading}>
             Send Email
           </Button>
-          <Button onClick={fetchReport} ml={2}> Fetch Report </Button>
+          <Button onClick={fetchReport} ml={2} isLoading={isFectch}> Fetch Report </Button>
         </form>
       )}
     </Box>
