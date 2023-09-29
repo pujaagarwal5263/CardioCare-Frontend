@@ -1,0 +1,38 @@
+[
+    {
+      "name": "Dr. Puja Agarwal",
+      "image": "https://static.vecteezy.com/system/resources/previews/001/363/116/non_2x/female-doctor-cute-character-vector.jpg",
+      "email": "pujaagarwal.collegedunia@gmail.com",
+      "education": "Medical College, PGI Lucknow",
+      "experience": 10
+    },
+    {
+      "name": "Dr. Aaditya Agarwal",
+      "image": "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg",
+      "email": "aadityanitu5263@gmail.com",
+      "education": "AIIMS Delhi",
+      "experience": 8
+    },
+    {
+      "name": "Dr Sadanand",
+      "image": "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg",
+      "email": "sadanandjaiswal92@gmail.com",
+      "education": "AIIMS Ranchi",
+      "experience": 8
+    },
+    {
+      "name": "Dr. Riddhi",
+      "image": "https://static.vecteezy.com/system/resources/previews/002/896/807/non_2x/female-doctor-using-her-digital-tablet-free-vector.jpg",
+      "email": "pujuagarwal5263@gmail.com",
+      "education": "AIIMS Ranchi",
+      "experience": 8
+    },
+ {
+      "name": "Dr Project",
+      "image": "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg",
+      "email": "projectmentalhealth1@gmail.com",
+      "education": "AIIMS Ranchi",
+      "experience": 8
+    }
+]
+  
