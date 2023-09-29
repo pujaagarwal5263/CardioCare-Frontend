@@ -14,6 +14,7 @@ const Calendar = () => {
   const [description,setDescription] = useState("");
   const [events, setEvents] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [sumitLoad, setSubmitLoad] =  useState(false);
   const toast = useToast();
 
   const location = useLocation();
@@ -42,7 +43,7 @@ const Calendar = () => {
   };
 
   const handleSubmit = async(e) => {
-    setIsLoading(true)
+    setSubmitLoad(true)
     e.preventDefault();
     // Handle form submission here, e.g., send data to the server or perform some action
     console.log("Start Time:", startTime);
@@ -83,7 +84,7 @@ const Calendar = () => {
       });
       console.error("Error:", err);
     }finally{
-      setIsLoading(false)
+      setSubmitLoad(false)
     }
   };
 
@@ -200,7 +201,7 @@ const Calendar = () => {
                 required
               />
             </div>
-            <Button type="submit" isLoading={isLoading}>Submit</Button>
+            <Button type="submit" isLoading={sumitLoad}>Submit</Button>
           </form>
         </div>
       </div>

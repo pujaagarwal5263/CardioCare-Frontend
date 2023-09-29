@@ -51,7 +51,7 @@ const LoginDone = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       getUserDetails();
-    }, 2000); // Delay for 2 seconds (2000 milliseconds)
+    }, 500); // Delay for 2 seconds (2000 milliseconds)
   
     return () => {
       // Clear the timer if the component unmounts before the delay is reached
