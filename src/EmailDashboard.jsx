@@ -10,6 +10,7 @@ import { Text, Flex, Button, Box ,  Modal,
   ModalFooter, useDisclosure} from "@chakra-ui/react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import InboxOutlinedIcon from "@mui/icons-material/InboxOutlined";
@@ -21,6 +22,11 @@ import ClearIcon from "@mui/icons-material/Clear";
 import MailIcon from "@mui/icons-material/Mail";
 
 const Email = ({ emails }) => {
+  const navigate = useNavigate();
+  const goToDashboard = () =>{
+      navigate("/dashboard")
+  }
+
   const [AllMails, setAllMails] = useState({
     "Category Promotions": [],
     "Category Social": [],
@@ -149,6 +155,7 @@ const Email = ({ emails }) => {
     setSelectedEmail(null);
     setActiveSection(sectionId);
   };
+
 
   return (
     <>
@@ -291,6 +298,10 @@ const Email = ({ emails }) => {
           </Flex>
         </Flex>
       )}
+      <br></br>
+       <Button onClick={()=>{
+        navigate("/dashboard")
+       }} colorScheme="red" marginLeft="10px">Back to Dashboard</Button>
     </>
   );
 };

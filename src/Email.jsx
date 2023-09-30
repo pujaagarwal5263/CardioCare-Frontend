@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Box, Heading, FormControl, FormLabel, Input, Textarea, Button } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
+import { useNavigate } from "react-router-dom";
 
 const Email = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [isFectch, setIsFetch] = useState(false)
@@ -186,49 +188,59 @@ const Email = () => {
         Email Page
       </Heading>
       {doctor && (
-        <form onSubmit={handleSubmit}
-          style={{background: 'rgba(255, 255, 255, 0.12)', 
-          backdropFilter: 'blur(10px)',  
-          borderRadius: '10px', 
-          padding: '1rem', 
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', 
-        }}
-        >
-          <FormControl mb={4}>
-            <FormLabel htmlFor="sendTo">Send To:</FormLabel>
-            <Input
-              type="text"
-              id="sendTo"
-              name="sendTo"
-              value={sendTo}
-              onChange={(e) => setSendTo(e.target.value)}
-            />
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel htmlFor="subject">Subject:</FormLabel>
-            <Input
-              type="text"
-              id="subject"
-              name="subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-            />
-          </FormControl>
-          <FormControl mb={4}>
-            <FormLabel htmlFor="message">Message:</FormLabel>
-            <Textarea
-              id="message"
-              name="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={8}
-            />
-          </FormControl>
-          <Button type="submit" colorScheme="red" onClick={SendMail} isLoading={isLoading}>
-            Send Email
-          </Button>
-          <Button onClick={fetchReport} ml={2} isLoading={isFectch}> Fetch Report </Button>
-        </form>
+        <Box p={4}>
+          <center>
+            <form onSubmit={handleSubmit}
+              style={{background: 'rgba(255, 255, 255, 0.12)', 
+              backdropFilter: 'blur(10px)',  
+              borderRadius: '10px', 
+              padding: '1rem', 
+              boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', 
+              maxWidth:"1200px"
+            }}
+            >
+              <FormControl mb={4}>
+                <FormLabel htmlFor="sendTo">Send To:</FormLabel>
+                <Input
+                  type="text"
+                  id="sendTo"
+                  name="sendTo"
+                  value={sendTo}
+                  onChange={(e) => setSendTo(e.target.value)}
+                />
+              </FormControl>
+              <FormControl mb={4}>
+                <FormLabel htmlFor="subject">Subject:</FormLabel>
+                <Input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                />
+              </FormControl>
+              <FormControl mb={4}>
+                <FormLabel htmlFor="message">Message:</FormLabel>
+                <Textarea
+                  id="message"
+                  name="message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows={8}
+                />
+              </FormControl>
+              <Box display="flex" justifyContent="left" gap="10px">
+                <Button type="submit" colorScheme="red" onClick={SendMail} isLoading={isLoading}>
+                  Send Email
+                </Button>
+                <Button onClick={fetchReport} ml={2} isLoading={isFectch}> Fetch Report </Button>
+                <Button onClick={()=>{
+              navigate("/doctors")
+            }}>Back</Button>
+              </Box>
+            </form>
+          </center>
+        </Box>
       )}
     </Box>
   );

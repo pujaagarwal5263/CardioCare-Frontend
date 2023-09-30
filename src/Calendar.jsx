@@ -5,8 +5,10 @@ import "./Calendar.css"; // Import your CSS file for Calendar styling
 import axios from "axios";
 import { useToast } from '@chakra-ui/react';
 import { Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const Calendar = () => {
+  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [startTime, setStartTime] = useState("");
@@ -144,11 +146,13 @@ const Calendar = () => {
       <div className="calendar-container">
         <div className="sidebar">
           {events!=null ? events.length > 0 ? (
-            <ul>
-              <b>Appointment For next Seven Days</b>
+            <ul style={{listStyleType:"none"}}>
+              <p style={{marginBottom:"1rem"}}>
+                <b>Appointment For next Seven Days</b>
+              </p>
               {events.map((event, index) => (
                 <li key={index}>
-                  {event.title} on {convertTimestamp(event?.when.start_time)} to {getHrsAndMin(event?.when.end_time)}
+                  📆 {event.title} on {convertTimestamp(event?.when.start_time)} to {getHrsAndMin(event?.when.end_time)}
                 </li>
               ))}
             </ul>
@@ -201,7 +205,12 @@ const Calendar = () => {
                 required
               />
             </div>
+            <div style={{display:"flex", gap: "10px"}}>
             <Button type="submit" isLoading={sumitLoad}>Submit</Button>
+            <Button onClick={()=>{
+              navigate("/doctors")
+            }}>Back</Button>
+            </div>
           </form>
         </div>
       </div>

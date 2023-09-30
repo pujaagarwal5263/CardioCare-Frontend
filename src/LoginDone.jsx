@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Text } from '@chakra-ui/react';
 import fdr3 from "./Images/fdr3.png"
 import axios from 'axios';
-
+import Header from "./Header";
 
 const LoginDone = () => {
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ const LoginDone = () => {
   // },[]);
 
   const getUserDetails = async () => {
+    try{
     // Check sessionStorage
     const userEmail = sessionStorage.getItem("userEmail");
     console.log("User Email from sessionStorage:", userEmail);
@@ -41,11 +42,15 @@ const LoginDone = () => {
     const response = await axios.get(`http://localhost:8000/get_user_details/${userEmail}`);
     console.log("GET Request Response:", response);
   
-    if (response.status === 200) {
+    if (response.status == 200) {
       setUsername(response.data.name);
       console.log("Username:", username);
       localStorage.setItem("username", username);
     }
+    }catch(err){
+      console.log(err);
+    }
+
   };
 
   useEffect(() => {
@@ -65,6 +70,7 @@ const LoginDone = () => {
 
   return (
     <>
+    <Header/>
         <Box
             minHeight="100vh"
             background='linear-gradient(to left, #ff5757, #8c52ff)'

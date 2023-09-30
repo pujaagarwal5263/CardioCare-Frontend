@@ -12,6 +12,8 @@ import Calendar from "./Calendar";
 import Email from "./Email";
 import EmailDashboard from "./EmailDashboard";
 import Recommendation from "./Recommendation";
+import AboutUs from "./AboutUs.jsx";
+
 
 function App() {
   const nylas = useNylas();
@@ -112,6 +114,8 @@ function App() {
         <Route path="/email" element={<Email/>} />
         <Route path="/email/dashboard" element={<EmailDashboard/>}/>
         <Route path="/Recommendation" element={<Recommendation/>}/>
+        <Route path="/aboutus" element={<AboutUs/>}/>
+
         {/* Add more routes as needed */}
       </Routes>
     </BrowserRouter>

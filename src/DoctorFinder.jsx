@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, Text, Flex, CircularProgress } from '@chakra-ui/react';
+import { Box, Heading, Text, Flex, CircularProgress, Button } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom'
 
 function DoctorFinder() {
   const [hospitals, setHospitals] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [isLoading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+  const goToDashboard = () =>{
+      navigate("/dashboard")
+  }
 
   useEffect(() => {
     getUserLocation();
@@ -42,7 +48,7 @@ function DoctorFinder() {
       .then((response) => response.json())
       .then((data) => {
         const results = data.results;
-        console.log(results);
+        // console.log(results);
         setHospitals(results);
         setLoading(false);
       })
@@ -53,7 +59,7 @@ function DoctorFinder() {
   };
 
   return (
-    <Box p={4}>
+    <Box p={4} background='linear-gradient(to left, #ff5757, #8c52ff)' color="white" minHeight="100vh">
       <Heading as="h2" size="xl" mb={4}>
         Nearby Hospitals
       </Heading>
@@ -68,35 +74,50 @@ function DoctorFinder() {
               Current location successfully fetched!! {userLocation.latitude}, {userLocation.longitude}
             </Text>
           )}
-          <Flex flexWrap="wrap">
+          <Flex flexWrap="wrap" justifyContent="space-around" p={4}>
             {hospitals.map((hospital, index) => (
               <Box
                 key={index}
                 p={4}
                 m={2}
-                width={{ base: '100%', sm: 'calc(50% - 16px)', md: 'calc(33.33% - 16px)' }}
-                borderWidth="1px"
+                width={{ base: '100%', sm: 'calc(50% - 16px)', md: 'calc(32% - 16px)' }}
                 borderRadius="md"
-                boxShadow="md"
-                bg="white"
+                pr={4}
+                    pt={{base: 4, md: 0}}
+                    pb={{base: 4, md: 0}}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.12)', 
+                      backdropFilter: 'blur(10px)', 
+                      borderRadius: '10px', 
+                      padding: '1rem', 
+                      boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', 
+                      transition: "all 0.3s ease"
+                    }}
+                    _hover={{
+                      // border:"1px solid red",
+                      boxShadow: '0 0 20px rgba(0, 0, 0, 0.7)', // Change the boxShadow on hover
+                      cursor: "pointer",
+                      transform: 'scale(1.01)'
+                    }}
               >
-                <Heading as="h3" size="lg">
+                <Heading as="h3" size="lg" color="purple" mb={1.5}>
                   {hospital.name}
                 </Heading>
                 <Text>
-                  Code: {hospital.plus_code?.compound_code}
+                  {/* <b>Code:</b> {hospital.plus_code?.compound_code}
+                  <br /> */}
+                  <b>Rating:</b> {hospital.rating}
                   <br />
-                  Rating: {hospital.rating}
+                  <b>Reviews:</b> {hospital.user_ratings_total}
                   <br />
-                  Reviews: {hospital.user_ratings_total}
-                  <br />
-                  Vicinity: {hospital.vicinity}
+                  <b>Vicinity:</b> {hospital.vicinity}
                 </Text>
               </Box>
             ))}
           </Flex>
         </>
       )}
+       <Button colorScheme='red' onClick={goToDashboard}>Back to Dashboard</Button>
     </Box>
   );
 }

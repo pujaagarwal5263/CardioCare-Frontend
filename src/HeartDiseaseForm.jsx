@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Box, FormControl, FormLabel, Input, Select, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Button, Box, FormControl, FormLabel, Input, Select, Spinner, Stack, Text, Flex } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
 import axios from "axios";
@@ -206,7 +206,7 @@ const HeartDiseaseForm = () => {
 
     try {
       // Make a POST request to your Flask API
-      const response = await fetch("http://127.0.0.1:5000/predict", {
+      const response = await fetch("https://cardiocare-dummy-ml.onrender.com/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -231,7 +231,8 @@ const HeartDiseaseForm = () => {
       setReportFlag(false);
 
       const responseData = await response.json();
-      const prediction = responseData.prediction[0];
+      const prediction = responseData.prediction;
+      console.log(prediction);
 
       // Reset the form data to its initial state (empty values)
       setFormData({
@@ -334,7 +335,7 @@ const HeartDiseaseForm = () => {
         },
       });
   
-      if (response.status === 200) {
+      if (response.status == 200) {
         // Create a blob from the response data
         const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
   
@@ -418,6 +419,17 @@ const HeartDiseaseForm = () => {
                 <option value="0">Female</option>
               </Select>
             </FormControl>
+            <br></br>
+            <Button
+            type="button"
+            colorScheme="purple"
+            onClick={()=>{
+              navigate("/dashboard")
+            }}
+            width="100%"
+            >
+            Back to Dashboard
+          </Button>
           </div>
           }
 
@@ -603,27 +615,29 @@ const HeartDiseaseForm = () => {
           }
           
           {isLastStep && (
+            <Flex gap="20px">
+            <Button
+              type="button"
+              colorScheme="red"
+              isDisabled={getReportFlag}
+              onClick={() => navigate("/doctors")}
+              width="50%"
+            >
+              Connect to doctor
+            </Button>
             <Button
               type="button"
               colorScheme="blue"
               isDisabled={getReportFlag}
-              onClick={() => navigate("/doctors")}
-            >
-              Connect to doctor
-            </Button>
-
-          )}
-
-            {isLastStep && (
-              <Button
-              type="button"
-              colorScheme="blue"
-              isDisabled={getReportFlag}
               onClick={() => downloadReport()}
+              width="50%"
               >
                 Download Report
               </Button>
-            )}
+            </Flex>
+
+          )}
+
           
 
         </Stack>

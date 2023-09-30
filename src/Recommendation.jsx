@@ -1,6 +1,13 @@
+import { Button } from '@chakra-ui/react'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
 
 const Recommendation = () => {
+    const navigate = useNavigate();
+    const goToDashboard = () =>{
+        navigate("/dashboard")
+    }
   return (
     <div style={{padding: '2rem', background: 'linear-gradient(to left, #ff5757, #8c52ff)'}}>
         <div style={{textAlign: 'center', padding: '1.5rem'}}>
@@ -123,15 +130,16 @@ const Recommendation = () => {
                 </p>
             </div>
         </div>
-        <div style={{margin: '1rem'}}>
+        <div style={{margin: '1rem', padding:"1rem 0"}}>
             <p style={{color: 'white', fontSize: '1.2rem'}}>
-                By following these recommendations, you can take significant steps towards improving your heart health and reducing 
+                <b>By following these recommendations, you can take significant steps towards improving your heart health and reducing 
                 the risk of cardiovascular diseases. Remember that consistency is key, and small, sustainable changes can make a big 
                 difference over time. Your heart is a precious asset, so make it a priority to care for it and enjoy a healthier, 
                 happier life. If you have specific questions or need personalized advice, don't hesitate to reach out to our team 
-                of experts for guidance. Your heart matters to us!
+                of experts for guidance. Your heart matters to us!</b>
             </p>
         </div>
+        <Button colorScheme='red' onClick={goToDashboard}>Back to Dashboard</Button>
     </div>
   )
 }
