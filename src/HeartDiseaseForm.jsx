@@ -206,7 +206,7 @@ const HeartDiseaseForm = () => {
 
     try {
       // Make a POST request to your Flask API
-      const response = await fetch("https://cardiocare-dummy-ml.onrender.com/predict", {
+      const response = await fetch("http://127.0.0.1:5000/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -341,7 +341,7 @@ const HeartDiseaseForm = () => {
   
         // Create a URL for the blob
         const pdfUrl = URL.createObjectURL(pdfBlob);
-  
+        console.log(pdfUrl);
         // Create an anchor element for downloading
         const downloadLink = document.createElement('a');
         downloadLink.href = pdfUrl;
