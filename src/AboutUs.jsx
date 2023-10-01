@@ -82,7 +82,7 @@ const AboutUs = () => {
           accurate healthcare solutions. That's where "Cardio Care" steps in, offering a transformative approach to heart 
           health management.
         </Text>
-        <Link href='https://freakycoders.hashnode.dev/preview/651456892c9f18000f61f0b1' color="blue" fontSize="1.5rem"> Visit our Blog to learn more </Link>
+        <Link href='https://freakycoders.hashnode.dev/cardiocare-your-heart-our-priority' color="blue" fontSize="1.5rem"> Visit our Blog to learn more </Link>
       </Box>
       <br/>
       <Button colorScheme='red' onClick={goToDashboard}>Back to Dashboard</Button>
