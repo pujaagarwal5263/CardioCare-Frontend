@@ -54,7 +54,7 @@ const Calendar = () => {
     console.log("object",sessionStorage.getItem("userEmail"));
     // You can send the form data to the server or perform any necessary action here
     try {
-      const response = await axios.post("http://localhost:8000/nylas/create-events", {
+      const response = await axios.post("https://cardiocare-backend.onrender.com/nylas/create-events", {
         email: sessionStorage.getItem("userEmail"),
         startTime: applyTimezone(startTime),
         endTime: applyTimezone(endTime),
@@ -96,7 +96,7 @@ const Calendar = () => {
       console.log("hittt");
 
       const response = await fetch(
-        `http://localhost:8000/get_availability?doctorEmail=${doctorEmail}`,
+        `https://cardiocare-backend.onrender.com/get_availability?doctorEmail=${doctorEmail}`,
         {
           method: "GET", // Use GET method, even though it's not standard
           headers: {

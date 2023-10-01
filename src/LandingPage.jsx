@@ -12,7 +12,7 @@ const LandingPage = () => {
 
     const Login = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/nylas/generate-auth-url');
+            const response = await axios.post('https://cardiocare-backend.onrender.com/nylas/generate-auth-url');
             const authURLFromNylas = response.data;
 
             setAuthURL(authURLFromNylas);

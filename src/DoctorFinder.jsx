@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, Text, Flex, CircularProgress, Button } from '@chakra-ui/react';
+import { Box, Heading, Text, Flex, CircularProgress, Button, Link } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 
 function DoctorFinder() {
   const [hospitals, setHospitals] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [originalLocation, setOriginalLocation] = useState("");
+  const [errorStatus, setErrorStatus] = useState(false);
+  const extension = "https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf";
+
 
   const navigate = useNavigate();
   const goToDashboard = () =>{
       navigate("/dashboard")
   }
+
+  useEffect(() => {
+    console.log(errorStatus);
+  }, [errorStatus]);
 
   useEffect(() => {
     getUserLocation();
@@ -22,11 +31,46 @@ function DoctorFinder() {
     }
   }, [userLocation]);
 
+
+  const getLocation = async (latitude, longitude) => {
+    const api = `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`;
+    try {
+      const response = await axios.get(api);
+      if (response.data) {
+        const { address } = response.data;
+        const locationParts = [];
+  
+        if (address?.city) {
+          locationParts.push(address.city);
+        }
+        if (address?.town) {
+          locationParts.push(address.town);
+        }
+        if (address?.city_district) {
+          locationParts.push(address.city_district);
+        }
+        if (address?.state_district) {
+          locationParts.push(address.state_district);
+        }
+  
+        if (address?.state) {
+          locationParts.push(address.state);
+        }
+  
+        const formattedLocation = locationParts.join(", ");
+        setOriginalLocation(formattedLocation);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getUserLocation = () => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+          getLocation(latitude, longitude);
           setUserLocation({ latitude, longitude });
         },
         (error) => {
@@ -55,6 +99,7 @@ function DoctorFinder() {
       .catch((error) => {
         console.error('Error fetching data:', error);
         setLoading(false); 
+        setErrorStatus(true);
       });
   };
 
@@ -63,17 +108,39 @@ function DoctorFinder() {
       <Heading as="h2" size="xl" mb={4}>
         Nearby Hospitals
       </Heading>
-      {isLoading ? (
+      {originalLocation && (
+            <p style={{ textAlign: "center", marginTop: "10px" }}>
+              Showing nearby hospitals for <b>{originalLocation}</b>
+            </p>
+          )}
+
+{errorStatus && (
+          <Flex align="center" justify="center" height="200px">
+            <div className="dnm-status" style={{ textAlign: "center" }}>
+              <p style={{ fontSize: "20px" }}>
+                Please install{" "}
+                <a href="https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf" target='_blank' style={{color:"blue", textDecoration:"underline"}}>
+  this
+</a>{" "}
+                Chrome extension, to get nearby hospitals.
+              </p>
+              <br />
+              <p>And turn it ON</p>
+            </div>
+          </Flex>
+        )}
+
+      {isLoading && !errorStatus ? (
         <Flex align="center" justify="center" height="200px">
           <CircularProgress isIndeterminate color="teal.500" />
         </Flex>
       ) : (
         <>
-          {userLocation && (
+          {/* {userLocation && (
             <Text>
               Current location successfully fetched!! {userLocation.latitude}, {userLocation.longitude}
             </Text>
-          )}
+          )} */}
           <Flex flexWrap="wrap" justifyContent="space-around" p={4}>
             {hospitals.map((hospital, index) => (
               <Box
