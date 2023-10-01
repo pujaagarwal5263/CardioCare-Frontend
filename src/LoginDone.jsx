@@ -16,7 +16,7 @@ const LoginDone = () => {
   //   if (userEmail) {
   //     setUserEmail(userEmail);
   //   }
-  //   const response = await axios.get(`http://localhost:8000/get_user_details/${email}`)
+  //   const response = await axios.get(`https://cardiocare-backend.onrender.com/get_user_details/${email}`)
  
   //   if(response.status == 200){
   //       setUsername(response.data.name)
@@ -39,7 +39,7 @@ const LoginDone = () => {
       setUserEmail(userEmail);
     }
   
-    const response = await axios.get(`http://localhost:8000/get_user_details/${userEmail}`);
+    const response = await axios.get(`https://cardiocare-backend.onrender.com/get_user_details/${userEmail}`);
     console.log("GET Request Response:", response);
   
     if (response.status == 200) {

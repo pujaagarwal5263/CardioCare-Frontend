@@ -22,7 +22,7 @@ const Email = () => {
     setIsFetch(true)
     const userEmail = sessionStorage.getItem("userEmail");
   
-    fetch('http://localhost:8000/get_report', {
+    fetch('https://cardiocare-backend.onrender.com/get_report', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ const Email = () => {
   //   setIsLoading(true);
   //   const userEmail = sessionStorage.getItem("userEmail");
 
-  //   fetch("http://localhost:8000/send_email", {
+  //   fetch("https://cardiocare-backend.onrender.com/send_email", {
   //     method: 'POST',
   //     headers: {
   //       'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ const Email = () => {
         body: message,
         sender_email: userEmail
       });
-      const response = await fetch("http://localhost:8000/send_email", {
+      const response = await fetch("https://cardiocare-backend.onrender.com/send_email", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
