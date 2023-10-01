@@ -22,7 +22,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [emails, setEmails] = useState({});
   const [toastNotification, setToastNotification] = useState('');
-  const SERVER_URI = 'http://localhost:8000';
+  const SERVER_URI = 'https://cardiocare-backend.onrender.com';
 
   useEffect(() => {
     if (!nylas) {

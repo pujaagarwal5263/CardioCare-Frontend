@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { NylasProvider } from '@nylas/nylas-react';
 import reportWebVitals from './reportWebVitals';
-const SERVER_URI = 'http://localhost:8000';
+const SERVER_URI = 'https://cardiocare-backend.onrender.com';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

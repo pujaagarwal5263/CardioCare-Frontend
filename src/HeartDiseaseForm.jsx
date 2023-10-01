@@ -206,7 +206,7 @@ const HeartDiseaseForm = () => {
 
     try {
       // Make a POST request to your Flask API
-      const response = await fetch("http://127.0.0.1:5000/predict", {
+      const response = await fetch("https://cardiocare-dummy-ml.onrender.com/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -218,7 +218,7 @@ const HeartDiseaseForm = () => {
         throw new Error("Network response was not ok");
       }
 
-      const savetoDB = await fetch("http://localhost:8000/save_report",{
+      const savetoDB = await fetch("https://cardiocare-backend.onrender.com/save_report",{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -328,7 +328,7 @@ const HeartDiseaseForm = () => {
       }}
       console.log(reportData);
 
-      const response = await axios.post("http://localhost:8080/generate-pdf", reportData, {
+      const response = await axios.post("https://pdf-gegnerator-express.onrender.com/generate-pdf", reportData, {
         responseType: 'arraybuffer', // Ensure binary response
         headers: {
           'Content-Type': 'application/json', // Match server's expected content type

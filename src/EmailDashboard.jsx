@@ -66,7 +66,7 @@ const Email = ({ emails }) => {
   const [selectedEmail, setSelectedEmail] = useState(null);
 
   const [loading, setIsLoading] = useState(true);
-  const SERVER_URI = "http://localhost:8000";
+  const SERVER_URI = "https://cardiocare-backend.onrender.com";
 
   const handleEmailClick = (email) => {
     setSelectedEmail(email);
