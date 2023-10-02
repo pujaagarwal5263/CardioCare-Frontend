@@ -1,10 +1,11 @@
 # Getting Started with Cardio Care
 
 Take a pull and install all dependencies.
+There is no configuration to be done in the main branch, if you want to connect with the local backend, replace the backend URLs with localhost URLs.
 
 ## Configurations
 
-For main, branch you can directly start.
+For the main branch, you can directly start.
 But for local, you need to change the backend URLs.
 
 ### `npm install`
