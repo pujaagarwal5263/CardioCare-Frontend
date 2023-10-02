@@ -141,7 +141,7 @@ const HeartDiseaseForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+    console.log("object", name, " ",value);
     // Fetch the selected option's string value
     let selectedOptionValue = "";
     if (optionsMapping[name]) {
@@ -203,6 +203,7 @@ const HeartDiseaseForm = () => {
       numMajorVesselsColoredByFluoroscopy: userData.ca,
       thaliumStressResult: userData.thal
     }}
+    console.log(DBdata);
 
     try {
       // Make a POST request to your Flask API
