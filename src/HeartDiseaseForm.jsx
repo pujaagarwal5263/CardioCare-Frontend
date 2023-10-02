@@ -353,10 +353,22 @@ const HeartDiseaseForm = () => {
         // Clean up by revoking the blob URL
         URL.revokeObjectURL(pdfUrl);
       } else {
+        toast({
+          title: "Cannot download now, try later.",
+          status: "error",
+          duration: 3000, 
+          isClosable: true, 
+        });
         console.error('Server returned a non-200 status code:', response.status);
       }
     
     }catch(err){
+      toast({
+        title: "Cannot download now, try later.",
+        status: "error",
+        duration: 3000, 
+        isClosable: true, 
+      });
       console.log(err);
     }
   }
