@@ -190,7 +190,7 @@ const HeartDiseaseForm = () => {
       email: userEmail,
       userReport: {
       age: userData.age,
-      sex: userData.sex === 1 ? "Male" : "Female",
+      sex: userData.sex == 1 ? "Male" : "Female",
       chestPainType: userData.cp,
       restingBloodPressure: userData.trestbps,
       serumCholesterol: userData.chol,
@@ -631,7 +631,7 @@ const HeartDiseaseForm = () => {
             <Button
               type="button"
               colorScheme="red"
-              isDisabled={getReportFlag}
+              
               onClick={() => navigate("/doctors")}
               width="50%"
             >
