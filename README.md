@@ -17,3 +17,5 @@ Install dependencies
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+Head to https://cardio-care-frontend.vercel.app/ for directly visiting the site
+
