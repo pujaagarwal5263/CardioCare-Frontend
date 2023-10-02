@@ -619,7 +619,7 @@ const HeartDiseaseForm = () => {
             <Button
               type="button"
               colorScheme="red"
-              isDisabled={getReportFlag}
+             
               onClick={() => navigate("/doctors")}
               width="50%"
             >
