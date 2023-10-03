@@ -70,7 +70,7 @@ const Calendar = () => {
       const data = response.data;
       console.log(data);
       toast({
-        title: "Success",
+        title: "Appointment Scheduled",
         description: "Appointment Scheduled Successfully",
         status: "success", // "info", "warning", "error", or "success"
         duration: 3000, // Duration in milliseconds
