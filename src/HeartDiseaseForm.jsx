@@ -293,11 +293,13 @@ const HeartDiseaseForm = () => {
 
       setIsLoading(false);
       setLoadingLabel("Predict")
+      setReportFlag(false)
     } catch (error) {
       console.error("Error:", error);
     }finally{
       setIsLoading(false);
       setLoadingLabel("Predict")
+      setReportFlag(false)
     }
   };
 

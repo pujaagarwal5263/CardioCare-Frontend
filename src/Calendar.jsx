@@ -160,8 +160,9 @@ const Calendar = () => {
             <p>No events available for the next 7 days</p>
           ): <big><p>Fetch doctors schedule</p></big>}
           <button className="check-availability-button" onClick={getUsersEvents}>
-            {isLoading ? "Loading..." : "Check Doctor's Availability"}
+            {isLoading ? "Loading..." : "Check Doctor's Schedule"}
           </button>
+          <small>Schedule appointment other than above slots to get more chances of confirmation</small>
         </div>
         <div className="form-container">
           <h2>Calendar</h2>
