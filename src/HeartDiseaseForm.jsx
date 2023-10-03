@@ -9,6 +9,7 @@ const HeartDiseaseForm = () => {
   const [username, setUserName] = useState("");
   const [getReportFlag, setReportFlag] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingLabel, setLoadingLabel] = useState('');
   const [comments, setComments] = useState("No heart disease vulnerability detected")
   const navigate = useNavigate();
   const toast = useToast(); 
@@ -160,6 +161,7 @@ const HeartDiseaseForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setLoadingLabel("Predicting...")
 
     console.log("User Data -> ", userData)
     console.log("Form Data -> ", formData)
@@ -219,6 +221,30 @@ const HeartDiseaseForm = () => {
         throw new Error("Network response was not ok");
       }
 
+      const responseData = await response.json();
+      const prediction = responseData.prediction;
+      console.log(prediction);
+
+         // Display a message based on the prediction result
+         if (prediction == 0) {
+          toast({
+            title: "No Heart Disease Detected",
+            status: "success",
+            duration: 3000, 
+            isClosable: true, 
+          });
+        } else if (prediction == 1) {
+          setComments("Potential heart disease detected.");
+          toast({
+            title: "Potential Heart Disease Detected",
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+
+        setLoadingLabel("Saving Report...")
+
       const savetoDB = await fetch("https://cardiocare-backend.onrender.com/save_report",{
         method: "POST",
         headers: {
@@ -230,10 +256,6 @@ const HeartDiseaseForm = () => {
         throw new Error("Network response was not ok");
       }
       setReportFlag(false);
-
-      const responseData = await response.json();
-      const prediction = responseData.prediction;
-      console.log(prediction);
 
       // Reset the form data to its initial state (empty values)
       setFormData({
@@ -269,26 +291,13 @@ const HeartDiseaseForm = () => {
       //   thal: "",
       // });
 
-      // Display a message based on the prediction result
-      if (prediction == 0) {
-        toast({
-          title: "No Heart Disease Detected",
-          status: "success",
-          duration: 3000, 
-          isClosable: true, 
-        });
-      } else if (prediction == 1) {
-        setComments("Potential heart disease detected.");
-        toast({
-          title: "Potential Heart Disease Detected",
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
       setIsLoading(false);
+      setLoadingLabel("Predict")
     } catch (error) {
       console.error("Error:", error);
+    }finally{
+      setIsLoading(false);
+      setLoadingLabel("Predict")
     }
   };
 
@@ -621,9 +630,10 @@ const HeartDiseaseForm = () => {
           (<Button
             type="submit"
             colorScheme="teal"
-            isLoading={isLoading}
+            isDisabled={isLoading}
+           // isLoading={isLoading}
             >
-            {isLastStep ? "Predict" : ""}
+            {isLoading ? loadingLabel : isLastStep ? 'Predict' : ''}
           </Button>)
           }
           
