@@ -45,7 +45,7 @@ function App() {
           localStorage.setItem('userEmail',emailAddress);
         })
         .catch((error) => {
-          console.error('An error occurred parsing the response:', error);
+          console.error('An error occurred while parsing the response:', error);
         });
     }
   }, [nylas]);
